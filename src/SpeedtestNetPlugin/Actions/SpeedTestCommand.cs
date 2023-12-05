@@ -3,6 +3,8 @@
     using System;
     using System.Text;
 
+    using Loupedeck.SpeedtestNetPlugin;
+    using Loupedeck.SpeedtestNetPlugin.Speedtest.Models;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Client;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Extensions;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Models;
@@ -33,31 +35,31 @@
             return true;
         }
 
-        private void SpeedtestClient_UploadDone(Object sender, SpeedtestNetPlugin.Speedtest.Models.Upload e)
+        private void SpeedtestClient_UploadDone(Object sender, Upload e)
         {
             this._uploadSpeed = e.UploadUpload.Bandwidth;
             this.ActionImageChanged();
         }
 
-        private void SpeedtestClient_UploadProgress(Object sender, SpeedtestNetPlugin.Speedtest.Models.Upload e)
+        private void SpeedtestClient_UploadProgress(Object sender, Upload e)
         {
             this._uploadSpeed = e.UploadUpload.Bandwidth;
             this.ActionImageChanged();
         }
 
-        private void SpeedtestClient_DownloadDone(Object sender, SpeedtestNetPlugin.Speedtest.Models.Download e)
+        private void SpeedtestClient_DownloadDone(Object sender, Download e)
         {
             this._downloadSpeed = e.DownloadDownload.Bandwidth;
             this.ActionImageChanged();
         }
 
-        private void SpeedtestClient_DownloadProgress(Object sender, SpeedtestNetPlugin.Speedtest.Models.Download e)
+        private void SpeedtestClient_DownloadProgress(Object sender, Download e)
         {
             this._downloadSpeed = e.DownloadDownload.Bandwidth;
             this.ActionImageChanged();
         }
 
-        private void SpeedtestClient_PingDone(Object sender, SpeedtestNetPlugin.Speedtest.Models.Ping e)
+        private void SpeedtestClient_PingDone(Object sender, Ping e)
         {
             this._ping = e.PingPing.Latency;
 
@@ -67,7 +69,17 @@
 
         protected override void RunCommand(String actionParameter)
         {
-            this.SpeedtestClient.TestSpeed();
+            PluginLog.Info("Started Speedtest");
+            PluginLog.Info("Current folder: " + Environment.CurrentDirectory);
+            try
+            {
+                this.SpeedtestClient.TestSpeed();
+            }
+            catch (Exception ex)
+            {
+                PluginLog.Error(ex, ex.Message);
+            }
+
             this.ActionImageChanged();
         }
 
@@ -75,7 +87,7 @@
         {
             var sb = new StringBuilder();
             var bmpBuilder = new BitmapBuilder(imageSize);
-           
+
             sb.AppendLine($"Ping: {Math.Round(this._ping)} ms");
             sb.AppendLine($"↓: {(this._downloadSpeed <= -1 ? "N/A" : $"{this._downloadSpeed.ToPrettySize()}/s")}");
             sb.AppendLine($"↑: {(this._uploadSpeed <= -1 ? "N/A" : $"{this._uploadSpeed.ToPrettySize()}/s")}");

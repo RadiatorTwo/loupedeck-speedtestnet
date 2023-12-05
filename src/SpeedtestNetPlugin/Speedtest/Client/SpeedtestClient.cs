@@ -17,7 +17,7 @@
         public event EventHandler<Upload> UploadProgress;
         public event EventHandler<Upload> UploadDone;
 
-        public const String consoleAppPath = "Speedtest/speedtest.exe";
+        public String consoleAppPath;
         public const String consoleAppArguments = "-f jsonl --progress-update-interval=1000";
 
         private readonly List<Ping> Pings = new List<Ping>();
@@ -31,13 +31,18 @@
                 throw new InvalidOperationException("Speedtest already running");
             }
 
+#if DEBUG
+            this.consoleAppPath = Path.Combine("Speedtest", "speedtest.exe");
+#else
+            this.consoleAppPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Loupedeck", "Plugins", "SpeedtestNet", "win", "Speedtest", "speedtest.exe");
+#endif
             this._running = true;
 
             try
             {
                 var psi = new ProcessStartInfo
                 {
-                    FileName = consoleAppPath,
+                    FileName = this.consoleAppPath,
                     Arguments = consoleAppArguments,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
@@ -104,7 +109,10 @@
                     process.WaitForExit();
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
             finally
             {
                 this._running = false;
