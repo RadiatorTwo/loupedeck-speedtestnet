@@ -7,7 +7,6 @@
     using Loupedeck.SpeedtestNetPlugin.Speedtest.Models;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Client;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Extensions;
-    using Loupedeck.SpeedTestNetPlugin.Speedtest.Models;
 
     // This class implements an example command that counts button presses.
 

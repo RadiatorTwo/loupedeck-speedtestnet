@@ -1,10 +1,7 @@
 ﻿namespace Loupedeck.SpeedTestNetPlugin.Speedtest.Client
 {
     using System;
-    using System.Threading.Tasks;
-
     using Loupedeck.SpeedtestNetPlugin.Speedtest.Models;
-    using Loupedeck.SpeedTestNetPlugin.Speedtest.Models;
 
     public enum SpeedUnit
     {

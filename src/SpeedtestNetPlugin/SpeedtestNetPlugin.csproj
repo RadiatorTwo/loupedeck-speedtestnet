@@ -67,10 +67,6 @@
     <Compile Include="Speedtest\Models\Download.cs" />
     <Compile Include="Speedtest\Models\Latency.cs" />
     <Compile Include="Speedtest\Models\Ping.cs" />
-    <Compile Include="Speedtest\Models\ProgressInfo.cs" />
-    <Compile Include="Speedtest\Models\Server.cs" />
-    <Compile Include="Speedtest\Models\ServerList.cs" />
-    <Compile Include="Speedtest\Models\SpeedTestResult.cs" />
     <Compile Include="Speedtest\Models\Upload.cs" />
   </ItemGroup>
   <ItemGroup>
