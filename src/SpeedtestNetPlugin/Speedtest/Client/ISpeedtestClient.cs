@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
+    using Loupedeck.SpeedtestNetPlugin.Speedtest.Models;
     using Loupedeck.SpeedTestNetPlugin.Speedtest.Models;
 
     public enum SpeedUnit
@@ -24,17 +25,12 @@
 
     public interface ISpeedtestClient
     {
-        TestStage CurrentStage { get; set; }
-        SpeedUnit SpeedUnit { get; }
-        event EventHandler<TestStage> StageChanged;
-        event EventHandler<ProgressInfo> ProgressChanged;
-        Task<SpeedTestResult> TestSpeedAsync(SpeedUnit speedUnit,
-            Int32 parallelTasks = 8,
-            Boolean testLatency = true,
-            Boolean testDownload = true,
-            Boolean testUpload = true);
+        event EventHandler<Ping> PingDone;
+        event EventHandler<Download> DownloadProgress;
+        event EventHandler<Download> DownloadDone;
+        event EventHandler<Upload> UploadProgress;
+        event EventHandler<Upload> UploadDone;
 
-        Task<SpeedTestResult> TestLatencyAsync();
-        SpeedTestResult TestLatency();
+        void TestSpeed();
     }
 }
